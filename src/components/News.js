@@ -20,7 +20,8 @@ const News =(props)=>{
 
    const updateNews = async ()=> {
     props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pagesize=${props.pagesize}`;
+    //const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pagesize=${props.pagesize}`;
+    const url = `https://gnews.io/api/v4/top-headlines?country=${props.country}&category=${props.category}&apikey=${props.apiKey}&page=${page}&max=${props.max}`;
     setLoading(true)
     let data = await fetch(url);
     props.setProgress(30);
@@ -40,7 +41,8 @@ const News =(props)=>{
 
  const fetchMoreData = async () => {
     
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=4286247ac7744883979028c9e39ff19f&page=${page+1}&pagesize=${props.pagesize}`;
+    //const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=4286247ac7744883979028c9e39ff19f&page=${page+1}&pagesize=${props.pagesize}`;
+    const url = `https://gnews.io/api/v4/top-headlines?country=${props.country}&category=${props.category}&apikey=8aee70befef526833fc9c30cc4340780&page=${page+1}&max=${props.max}`;
     setPage(page+1)
     let data = await fetch(url);
     let parsedData = await data.json()
@@ -64,7 +66,7 @@ const News =(props)=>{
             <div className="row" >
               {articles.map((element) => {
                 return <div className="col-md-4" key={element.url}>
-                  <Newsitems title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
+                  <Newsitems title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.image} newsUrl={element.url} date={element.publishedAt} source={element.source.news} />
                 </div>
               })}
             </div>
@@ -78,14 +80,14 @@ const News =(props)=>{
 News.defaultProps = {
 
   country: 'in',
-  pagesize: 8,
+  max: 10,
   category: 'general',
 }
 
 News.propTypes = {
 
   country: PropTypes.string,
-  pagesize: PropTypes.number,
+  max: PropTypes.number,
   category: PropTypes.string,
 }
 
